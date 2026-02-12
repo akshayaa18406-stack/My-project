@@ -10,164 +10,134 @@
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
 
     body {
-      background: #f5f5f5;
-      overflow: hidden;
+      background: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     /* Splash Screen */
     #splash {
       position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9800, #ff5722);
+      inset: 0;
+      background: #ff6f00;
       display: flex;
-      align-items: center;
       justify-content: center;
-      z-index: 1000;
+      align-items: center;
+      z-index: 10;
+      animation: fadeOut 1s ease forwards;
+      animation-delay: 2.5s;
     }
 
     #logo {
       width: 150px;
-      animation: zoom 2s ease-in-out forwards;
+      animation: zoomLogo 2.5s ease forwards;
     }
 
-    @keyframes zoom {
+    @keyframes zoomLogo {
       0% { transform: scale(0.3); opacity: 0; }
-      50% { transform: scale(1.1); opacity: 1; }
+      60% { transform: scale(1.2); opacity: 1; }
       100% { transform: scale(1); }
     }
 
-    /* Main Content */
-    #main {
-      display: none;
-      height: 100vh;
-      overflow-y: auto;
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
     }
 
-    header {
-      background: #ff5722;
-      color: white;
-      padding: 15px;
+    /* Main Page */
+    #main {
+      display: none;
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
       text-align: center;
-      font-size: 22px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #ff6f00;
       font-weight: 600;
     }
 
-    .menu {
+    .menu-box {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 15px;
-      padding: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
     }
 
     .card {
-      background: white;
-      border-radius: 15px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-
-    .card h3 {
-      margin: 10px 0 5px;
-      font-size: 16px;
-    }
-
-    .card p {
-      font-size: 14px;
-      color: #555;
-    }
-
-    .card button {
-      margin-top: 10px;
-      padding: 8px 15px;
-      border: none;
-      background: #ff5722;
-      color: white;
-      border-radius: 8px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
       cursor: pointer;
     }
 
-    .card button:hover {
-      background: #e64a19;
+    .card:hover {
+      transform: scale(1.05);
     }
+
+    .card img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      color: #333;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #777;
+    }
+
   </style>
 </head>
-
 <body>
 
   <!-- Splash Screen -->
   <div id="splash">
-    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" id="logo" alt="Canteen Logo" />
+    <!-- Replace src with your logo image -->
+    <img id="logo" src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Canteen Logo" />
   </div>
 
   <!-- Main Page -->
   <div id="main">
-    <header>🍽 Canteen Management System</header>
+    <h1>College Canteen</h1>
 
-    <div class="menu">
-      <div class="card">
-        <img src="https://www.google.com/imgres?q=dosa%20images&imgurl=https%3A%2F%2Fimages.livemint.com%2Fimg%2F2021%2F07%2F05%2Foriginal%2Fcrispy-dosa-temple-recipe_1625469413436.jpg&imgrefurl=https%3A%2F%2Fwww.livemint.com%2Fmint-lounge%2Ffood%2Fa-recipe-for-crispy-pepper-dosa-from-a-madurai-temple-111625469403217.html&docid=CiaYGNRQ8-60gM&tbnid=GpudylGKv6FoeM&vet=12ahUKEwjcqfb_o9SSAxUNUfUHHUQvOl0QnPAOegQIaxAB..i&w=2292&h=3011&hcb=2&ved=2ahUKEwjcqfb_o9SSAxUNUfUHHUQvOl0QnPAOegQIaxAB" />
-        <h3>Dosa</h3>
-        <p>₹40</p>
-        <button>Add</button>
+    <div class="menu-box">
+      <div class="card" onclick="alert('Veg Menu Clicked')">
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Veg">
+        <h3>Veg</h3>
       </div>
 
-      <div class="card">
-        <img src="https://www.google.com/imgres?q=idly%20images&imgurl=https%3A%2F%2Fthedinnertable.in%2Fwp-content%2Fuploads%2F2024%2F11%2FIDLY.jpg&imgrefurl=https%3A%2F%2Fthedinnertable.in%2Fproduct%2Fidly-2-pcs%2F&docid=bD5QHTE4_g7yFM&tbnid=GnkORgxlAdsYgM&vet=12ahUKEwi2nJPHpNSSAxWEm68BHWtMM1MQnPAOegQIfBAB..i&w=400&h=400&hcb=2&ved=2ahUKEwi2nJPHpNSSAxWEm68BHWtMM1MQnPAOegQIfBAB" />
-        <h3>Idli</h3>
-        <p>₹30</p>
-        <button>Add</button>
-      </div>
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" />
-        <h3>Fried Rice</h3>
-        <p>₹70</p>
-        <button>Add</button>
-      </div>
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046751.png" />
-        <h3>Noodles</h3>
-        <p>₹60</p>
-        <button>Add</button>
-      </div>
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/3014/3014465.png" />
-        <h3>Juice</h3>
-        <p>₹25</p>
-        <button>Add</button>
+      <div class="card" onclick="alert('Non-Veg Menu Clicked')">
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046769.png" alt="Non-Veg">
+        <h3>Non-Veg</h3>
       </div>
     </div>
+
+    <footer>Powered by Akshayaa P</footer>
   </div>
 
   <script>
     setTimeout(() => {
       document.getElementById('splash').style.display = 'none';
       document.getElementById('main').style.display = 'block';
-      document.body.style.overflow = 'auto';
-    }, 2500);
+    }, 3000);
   </script>
 
 </body>
