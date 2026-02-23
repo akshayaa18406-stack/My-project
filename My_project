@@ -9,167 +9,120 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
 
-    body {
-      background: #f5f5f5;
-      overflow: hidden;
-    }
+    body { background: #ffffff; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
 
-    /* Splash Screen */
-    #splash {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9800, #ff5722);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
+    #splash { position: fixed; inset: 0; background: #ff6f00; display: flex; justify-content: center; align-items: center; z-index: 10; animation: fadeOut 1s ease forwards; animation-delay: 2.5s; }
 
-    #logo {
-      width: 150px;
-      animation: zoom 2s ease-in-out forwards;
-    }
+    #logo { width: 150px; animation: zoomLogo 2.5s ease forwards; }
 
-    @keyframes zoom {
-      0% { transform: scale(0.3); opacity: 0; }
-      50% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); }
-    }
+    @keyframes zoomLogo { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); } }
 
-    /* Main Content */
-    #main {
-      display: none;
-      height: 100vh;
-      overflow-y: auto;
-    }
+    @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
 
-    header {
-      background: #ff5722;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: 600;
-    }
+    #main { display: none; width: 100%; max-width: 420px; padding: 20px; text-align: center; }
 
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 15px;
-      padding: 20px;
-    }
+    h1 { margin-bottom: 20px; color: #ff6f00; font-weight: 600; }
 
-    .card {
-      background: white;
-      border-radius: 15px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: 0.3s;
-    }
+    .filter-bar { display: flex; justify-content: space-around; background: #fff3e0; padding: 10px; border-radius: 25px; margin-bottom: 20px; }
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
+    .filter-btn { border: none; background: transparent; font-weight: 600; font-size: 14px; padding: 8px 18px; border-radius: 20px; cursor: pointer; }
 
-    .card img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
+    .filter-btn.active { background: #ff6f00; color: white; }
 
-    .card h3 {
-      margin: 10px 0 5px;
-      font-size: 16px;
-    }
+    .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-    .card p {
-      font-size: 14px;
-      color: #555;
-    }
+    .food-card { background: #ffffff; border-radius: 18px; padding: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.1); text-align: center; }
 
-    .card button {
-      margin-top: 10px;
-      padding: 8px 15px;
-      border: none;
-      background: #ff5722;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+    .food-card img { width: 70px; margin-bottom: 8px; }
 
-    .card button:hover {
-      background: #e64a19;
-    }
+    .food-card h4 { font-size: 14px; margin-bottom: 5px; }
+
+    .food-card span { font-size: 13px; font-weight: 600; color: #ff6f00; }
+
+    .qty-box { margin-top: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+
+    .qty-btn { border: none; background: #ff6f00; color: white; padding: 5px 10px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+
+    .qty { font-weight: 600; }
+
+    footer { margin-top: 30px; font-size: 13px; color: #777; }
   </style>
 </head>
-
 <body>
 
-  <!-- Splash Screen -->
   <div id="splash">
-    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" id="logo" alt="Canteen Logo" />
+    <img id="logo" src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Canteen Logo" />
   </div>
 
-  <!-- Main Page -->
   <div id="main">
-    <header>🍽 Canteen Management System</header>
+    <h1>College Canteen</h1>
 
-    <div class="menu">
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" />
-        <h3>Dosa</h3>
-        <p>₹40</p>
-        <button>Add</button>
-      </div>
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/2515/2515183.png" />
-        <h3>Idli</h3>
-        <p>₹30</p>
-        <button>Add</button>
-      </div>
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" />
-        <h3>Fried Rice</h3>
-        <p>₹70</p>
-        <button>Add</button>
-      </div>
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046751.png" />
-        <h3>Noodles</h3>
-        <p>₹60</p>
-        <button>Add</button>
-      </div>
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/3014/3014465.png" />
-        <h3>Juice</h3>
-        <p>₹25</p>
-        <button>Add</button>
-      </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterMenu('all')">All</button>
+      <button class="filter-btn" onclick="filterMenu('veg')">Veg</button>
+      <button class="filter-btn" onclick="filterMenu('nonveg')">Non-Veg</button>
     </div>
+
+    <div id="foodGrid" class="food-grid"></div>
+
+    <footer>Powered by Akshayaa P</footer>
   </div>
 
   <script>
     setTimeout(() => {
       document.getElementById('splash').style.display = 'none';
       document.getElementById('main').style.display = 'block';
-      document.body.style.overflow = 'auto';
-    }, 2500);
+    }, 3000);
+
+    const foods = [
+      {name:'Idly', price:20, type:'veg', img:'https://cdn-icons-png.flaticon.com/512/590/590749.png', qty:0},
+      {name:'Dosa', price:40, type:'veg', img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png', qty:0},
+      {name:'Veg Fried Rice', price:80, type:'veg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png', qty:0},
+      {name:'Veg Biriyani', price:90, type:'veg', img:'https://cdn-icons-png.flaticon.com/512/857/857681.png', qty:0},
+      {name:'Chicken Biriyani', price:140, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png', qty:0},
+      {name:'Chicken Fried Rice', price:120, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png', qty:0},
+      {name:'Egg Fried Rice', price:100, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png', qty:0},
+      {name:'Parota + Chicken', price:110, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/857/857681.png', qty:0}
+    ];
+
+    function renderFoods(list) {
+      const grid = document.getElementById('foodGrid');
+      grid.innerHTML = list.map((f,i) => `
+        <div class="food-card">
+          <img src="${f.img}">
+          <h4>${f.name}</h4>
+          <span>₹${f.price}</span>
+
+          <div class="qty-box">
+            <button class="qty-btn" onclick="decreaseQty(${i})">−</button>
+            <div class="qty" id="qty${i}">${f.qty}</div>
+            <button class="qty-btn" onclick="increaseQty(${i})">+</button>
+          </div>
+        </div>`).join('');
+    }
+
+    function increaseQty(i){
+      foods[i].qty++;
+      document.getElementById('qty'+i).innerText = foods[i].qty;
+    }
+
+    function decreaseQty(i){
+      if(foods[i].qty > 0) foods[i].qty--;
+      document.getElementById('qty'+i).innerText = foods[i].qty;
+    }
+
+    function filterMenu(type) {
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if(type === 'all') renderFoods(foods);
+      else renderFoods(foods.filter(f => f.type === type));
+    }
+
+    renderFoods(foods);
   </script>
 
 </body>
 </html>
-
