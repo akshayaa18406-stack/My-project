@@ -14,23 +14,28 @@ body{background:#fff;min-height:100vh;display:flex;justify-content:center;align-
 #logo{width:150px;animation:zoomLogo 2.5s ease forwards;}
 @keyframes zoomLogo{0%{transform:scale(.3);opacity:0;}60%{transform:scale(1.2);opacity:1;}100%{transform:scale(1);}}
 @keyframes fadeOut{to{opacity:0;visibility:hidden;}}
-#main{display:none;width:100%;max-width:420px;padding:20px;text-align:center;}
+#main{display:none;width:100%;max-width:460px;padding:15px;text-align:center;}
 h1{margin-bottom:20px;color:#ff6f00;font-weight:600;}
-.filter-bar{display:flex;justify-content:space-around;background:#fff3e0;padding:10px;border-radius:25px;margin-bottom:20px;}
-.filter-btn{border:none;background:transparent;font-weight:600;font-size:14px;padding:8px 18px;border-radius:20px;cursor:pointer;}
+.filter-bar{display:flex;justify-content:space-around;background:#fff3e0;padding:8px;border-radius:25px;margin-bottom:20px;}
+.filter-btn{border:none;background:transparent;font-weight:600;font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;}
 .filter-btn.active{background:#ff6f00;color:#fff;}
-.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
-.food-card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 6px 15px rgba(0,0,0,.1);text-align:center;}
-.food-card img{width:70px;margin-bottom:8px;}
-.food-card h4{font-size:14px;margin-bottom:5px;}
-.food-card span{font-size:13px;font-weight:600;color:#ff6f00;}
-.qty-box{margin-top:8px;display:flex;justify-content:center;align-items:center;gap:10px;}
-.qty-btn{border:none;background:#ff6f00;color:white;padding:5px 10px;border-radius:50%;font-size:16px;cursor:pointer;}
+
+/* --- UPDATED FOR 4 COLUMNS --- */
+.food-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:8px;}
+.food-card{background:#fff;border-radius:12px;padding:8px 4px;box-shadow:0 4px 10px rgba(0,0,0,.1);text-align:center;}
+.food-card img{width:45px;margin-bottom:5px;}
+.food-card h4{font-size:11px;margin-bottom:3px;height:30px;overflow:hidden;line-height:1.2;}
+.food-card span{font-size:11px;font-weight:600;color:#ff6f00;}
+.qty-box{margin-top:6px;display:flex;justify-content:center;align-items:center;gap:5px;}
+.qty-btn{border:none;background:#ff6f00;color:white;width:22px;height:22px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.qty-box div{font-size:12px;}
+/* ---------------------------- */
+
 .bill-box{margin-top:20px;background:#fff3e0;padding:15px;border-radius:15px;}
 .pay-btn{margin:5px;padding:8px 18px;border:none;border-radius:20px;font-weight:600;cursor:pointer;}
 .gpay{background:#1a73e8;color:white;}
 .cash{background:#2e7d32;color:white;}
-footer{margin-top:15px;font-size:13px;color:#777;}
+footer{margin-top:15px;font-size:12px;color:#777;}
 
 #qrBox,#billPage,#successPage,#historyPage{
 position:fixed;
@@ -138,12 +143,10 @@ document.getElementById('main').style.display='block';
 const foods=[
 {name:'Idly',price:20,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/590/590749.png',qty:0},
 {name:'Dosa',price:40,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png',qty:0},
-
 {name:'Pongal',price:35,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',qty:0},
 {name:'Poori',price:45,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/857/857681.png',qty:0},
 {name:'Vada',price:15,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',qty:0},
 {name:'Kichadi',price:50,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/857/857681.png',qty:0},
-
 {name:'Veg Fried Rice',price:80,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',qty:0},
 {name:'Veg Biriyani',price:90,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/857/857681.png',qty:0},
 {name:'Chicken Biriyani',price:140,type:'nonveg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png',qty:0},
@@ -154,20 +157,31 @@ const foods=[
 
 function renderFoods(list){
 const grid=document.getElementById('foodGrid');
-grid.innerHTML=list.map((f,i)=>`
-<div class="food-card">
-<img src="${f.img}">
-<h4>${f.name}</h4>
-<span>₹${f.price}</span>
-<div class="qty-box">
-<button class="qty-btn" onclick="decreaseQty(${i})">−</button>
-<div>${f.qty}</div>
-<button class="qty-btn" onclick="increaseQty(${i})">+</button>
-</div></div>`).join('');
+grid.innerHTML=list.map((f,idx)=>{
+    // Find the original index in the main foods array to maintain qty consistency
+    const originalIndex = foods.findIndex(item => item.name === f.name);
+    return `
+    <div class="food-card">
+    <img src="${f.img}">
+    <h4>${f.name}</h4>
+    <span>₹${f.price}</span>
+    <div class="qty-box">
+    <button class="qty-btn" onclick="decreaseQty(${originalIndex})">−</button>
+    <div>${f.qty}</div>
+    <button class="qty-btn" onclick="increaseQty(${originalIndex})">+</button>
+    </div></div>`;
+}).join('');
 }
 
-function increaseQty(i){foods[i].qty++;updateBill();renderFoods(foods);}
-function decreaseQty(i){if(foods[i].qty>0)foods[i].qty--;updateBill();renderFoods(foods);}
+function increaseQty(i){foods[i].qty++;updateBill();refreshCurrentView();}
+function decreaseQty(i){if(foods[i].qty>0)foods[i].qty--;updateBill();refreshCurrentView();}
+
+function refreshCurrentView(){
+    const activeBtn = document.querySelector('.filter-btn.active').innerText.toLowerCase().replace('-','');
+    if(activeBtn === 'all') renderFoods(foods);
+    else if(activeBtn === 'history') showHistory();
+    else renderFoods(foods.filter(f => f.type === activeBtn));
+}
 
 function updateBill(){
 let total=0,list="";
