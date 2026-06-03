@@ -1,270 +1,326 @@
+n · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Canteen Management System</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
-body{background:#fff;min-height:100vh;display:flex;justify-content:center;align-items:center;}
-#splash{position:fixed;inset:0;background:#ff6f00;display:flex;justify-content:center;align-items:center;z-index:10;animation:fadeOut 1s ease forwards;animation-delay:2.5s;}
-#logo{width:150px;animation:zoomLogo 2.5s ease forwards;}
-@keyframes zoomLogo{0%{transform:scale(.3);opacity:0;}60%{transform:scale(1.2);opacity:1;}100%{transform:scale(1);}}
-@keyframes fadeOut{to{opacity:0;visibility:hidden;}}
-
-#main{display:none;width:100%;max-width:480px;padding:15px;text-align:center;}
-h1{margin-bottom:20px;color:#ff6f00;font-weight:600;}
-
-.filter-bar{display:flex;justify-content:space-around;background:#fff3e0;padding:8px;border-radius:25px;margin-bottom:20px;}
-.filter-btn{border:none;background:transparent;font-weight:600;font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;}
-.filter-btn.active{background:#ff6f00;color:#fff;}
-
-/* --- UPDATED: 4 COLUMNS WITH BETTER SPACING --- */
-.food-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:12px; /* Increased space between cards */
-}
-.food-card{
-    background:#fff;
-    border-radius:12px;
-    padding:12px 4px; /* More vertical breathing room inside card */
-    box-shadow:0 4px 10px rgba(0,0,0,.08);
-    text-align:center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.food-card img{width:40px; height:40px; object-fit:contain; margin: 0 auto 8px;}
-.food-card h4{font-size:10px; margin-bottom:3px; height:26px; overflow:hidden; line-height:1.2; color:#333;}
-.food-card span{font-size:11px; font-weight:600; color:#ff6f00;}
-
-.qty-box{margin-top:6px; display:flex; justify-content:center; align-items:center; gap:5px;}
-.qty-btn{
-    border:none; background:#ff6f00; color:white; 
-    width:20px; height:20px; border-radius:50%; 
-    font-size:12px; cursor:pointer; 
-    display:flex; align-items:center; justify-content:center;
-}
-.qty-box div{font-size:11px; font-weight:600;}
-/* ---------------------------------------------- */
-
-.bill-box{margin-top:20px;background:#fff3e0;padding:15px;border-radius:15px;}
-.pay-btn{margin:5px;padding:8px 18px;border:none;border-radius:20px;font-weight:600;cursor:pointer;}
-.gpay{background:#1a73e8;color:white;}
-.cash{background:#2e7d32;color:white;}
-footer{margin-top:15px;font-size:12px;color:#777;}
-
-#qrBox,#billPage,#successPage,#historyPage{
-    position:fixed; inset:0; background:white; display:none;
-    justify-content:center; align-items:center; z-index:300; padding:20px; text-align:center;
-}
-.tick{font-size:90px;color:#2e7d32;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canteen Management System</title>
+ 
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+ 
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+ 
+    body { background: #ffffff; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
+ 
+    #splash { position: fixed; inset: 0; background: #ff6f00; display: flex; justify-content: center; align-items: center; z-index: 10; animation: fadeOut 1s ease forwards; animation-delay: 2.5s; }
+ 
+    #logo { width: 150px; animation: zoomLogo 2.5s ease forwards; }
+ 
+    @keyframes zoomLogo { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); } }
+ 
+    @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+ 
+    #main { display: none; width: 100%; max-width: 480px; padding: 20px; text-align: center; }
+ 
+    h1 { margin-bottom: 20px; color: #ff6f00; font-weight: 600; }
+ 
+    /* ── Restaurant List ── */
+    #restaurantView { }
+ 
+    .section-title { font-size: 15px; font-weight: 600; color: #555; margin-bottom: 14px; }
+ 
+    .restaurant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 30px; }
+ 
+    .restaurant-card {
+      background: #fff8f0;
+      border-radius: 18px;
+      padding: 16px 10px;
+      box-shadow: 0 4px 14px rgba(255,111,0,0.12);
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+ 
+    .restaurant-card:hover { transform: translateY(-4px); box-shadow: 0 8px 22px rgba(255,111,0,0.22); border-color: #ff6f00; }
+ 
+    .restaurant-card .r-icon { font-size: 36px; margin-bottom: 8px; }
+ 
+    .restaurant-card h3 { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 3px; }
+ 
+    .restaurant-card p { font-size: 11px; color: #888; }
+ 
+    /* ── Menu View ── */
+    #menuView { display: none; }
+ 
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff3e0; border: none; color: #ff6f00;
+      font-weight: 600; font-size: 13px;
+      padding: 8px 16px; border-radius: 20px;
+      cursor: pointer; margin-bottom: 16px;
+    }
+ 
+    .back-btn:hover { background: #ffe0b2; }
+ 
+    .restaurant-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
+ 
+    .restaurant-header .r-icon-big { font-size: 40px; }
+ 
+    .restaurant-header h2 { font-size: 20px; color: #ff6f00; font-weight: 600; }
+ 
+    .filter-bar { display: flex; justify-content: space-around; background: #fff3e0; padding: 10px; border-radius: 25px; margin-bottom: 20px; }
+ 
+    .filter-btn { border: none; background: transparent; font-weight: 600; font-size: 14px; padding: 8px 18px; border-radius: 20px; cursor: pointer; }
+ 
+    .filter-btn.active { background: #ff6f00; color: white; }
+ 
+    .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+ 
+    .food-card { background: #ffffff; border-radius: 18px; padding: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.1); text-align: center; }
+ 
+    .food-card img { width: 70px; margin-bottom: 8px; }
+ 
+    .food-card h4 { font-size: 14px; margin-bottom: 5px; }
+ 
+    .food-card span { font-size: 13px; font-weight: 600; color: #ff6f00; }
+ 
+    .qty-box { margin-top: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+ 
+    .qty-btn { border: none; background: #ff6f00; color: white; padding: 5px 10px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+ 
+    .qty { font-weight: 600; }
+ 
+    footer { margin-top: 30px; font-size: 13px; color: #777; }
+  </style>
 </head>
-
 <body>
-
-<audio id="successSound">
-<source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3">
-</audio>
-
-<div id="splash">
-<img id="logo" src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"/>
-</div>
-
-<div id="main">
-    <h1>College Canteen</h1>
-
-    <div class="filter-bar">
+ 
+  <div id="splash">
+    <img id="logo" src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Canteen Logo" />
+  </div>
+ 
+  <div id="main">
+    <h1>🍴 Flavour Street</h1>
+ 
+    <!-- Restaurant List -->
+    <div id="restaurantView">
+      <p class="section-title">🍽️ Choose a Restaurant</p>
+      <div class="restaurant-grid" id="restaurantGrid"></div>
+    </div>
+ 
+    <!-- Menu View -->
+    <div id="menuView">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="restaurant-header">
+        <span class="r-icon-big" id="menuIcon"></span>
+        <h2 id="menuRestaurantName"></h2>
+      </div>
+ 
+      <div class="filter-bar">
         <button class="filter-btn active" onclick="filterMenu('all')">All</button>
         <button class="filter-btn" onclick="filterMenu('veg')">Veg</button>
         <button class="filter-btn" onclick="filterMenu('nonveg')">Non-Veg</button>
-        <button class="filter-btn" onclick="showHistory()">History</button>
+      </div>
+ 
+      <div id="foodGrid" class="food-grid"></div>
     </div>
-
-    <div id="foodGrid" class="food-grid"></div>
-
-    <div class="bill-box">
-        <h3>Total : ₹ <span id="total">0</span></h3>
-        <p id="items" style="font-size:12px; color:#555; margin-top:5px;"></p>
-        <button class="pay-btn gpay" onclick="pay('GPay')">GPay</button>
-        <button class="pay-btn cash" onclick="pay('Cash')">Cash</button>
-    </div>
-
+ 
     <footer>Powered by Akshayaa P</footer>
-</div>
-
-<div id="qrBox">
-    <div>
-        <h3>Scan to Pay</h3>
-        <img id="qrImg"><br><br>
-        <button class="pay-btn cash" onclick="closeQR()">Close</button>
-    </div>
-</div>
-
-<div id="billPage">
-    <div style="width:300px;border:1px dashed #999;padding:15px;font-family:monospace;">
-        <h3>College Canteen</h3><hr>
-        <table width="100%" style="font-size:13px;">
-            <thead>
-                <tr>
-                    <th align="left">Item</th>
-                    <th align="center">Qty</th>
-                    <th align="right">Amt</th>
-                </tr>
-            </thead>
-            <tbody id="billTable"></tbody>
-        </table>
-        <hr>
-        <p style="display:flex;justify-content:space-between;">
-            <span>Sub Total</span><span>₹ <span id="subTotal"></span></span>
-        </p>
-        <p style="display:flex;justify-content:space-between;">
-            <span>Container Charge</span><span>₹ 30</span>
-        </p>
-        <hr>
-        <h3 style="display:flex;justify-content:space-between;">
-            <span>Grand Total</span><span>₹ <span id="grandTotal"></span></span>
-        </h3>
-        <p>Thank You! Visit Again 😊</p>
-        <button class="pay-btn cash" onclick="confirmOrder()">Confirm</button>
-    </div>
-</div>
-
-<div id="successPage">
-    <div class="tick">✔</div>
-    <h2>Order Placed Successfully!</h2>
-</div>
-
-<div id="historyPage">
-    <h2>Order History</h2>
-    <div id="historyList"></div><br>
-    <button class="pay-btn cash" onclick="closeHistory()">Close</button>
-</div>
-
-<script>
-setTimeout(()=>{
-    document.getElementById('splash').style.display='none';
-    document.getElementById('main').style.display='block';
-},3000);
-
-const foods=[
-    {name:'Idly',price:20,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/590/590749.png',qty:0},
-    {name:'Dosa',price:40,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png',qty:0},
-    {name:'Pongal',price:35,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',qty:0},
-    {name:'Poori',price:45,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/857/857681.png',qty:0},
-    {name:'Vada',price:15,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',qty:0},
-    {name:'Kichadi',price:50,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/857/857681.png',qty:0},
-    {name:'Veg Rice',price:80,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',qty:0},
-    {name:'Veg Biri',price:90,type:'veg',img:'https://cdn-icons-png.flaticon.com/512/857/857681.png',qty:0},
-    {name:'Chkn Biri',price:140,type:'nonveg',img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png',qty:0},
-    {name:'Chkn Rice',price:120,type:'nonveg',img:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png',qty:0},
-    {name:'Egg Rice',price:100,type:'nonveg',img:'https://cdn-icons-png.flaticon.com/512/135/135620.png',qty:0},
-    {name:'Parota',price:110,type:'nonveg',img:'https://cdn-icons-png.flaticon.com/512/857/857681.png',qty:0}
-];
-
-function renderFoods(list){
-    const grid=document.getElementById('foodGrid');
-    grid.innerHTML=list.map((f,idx)=>{
-        const originalIndex = foods.findIndex(item => item.name === f.name);
+  </div>
+ 
+  <script>
+    setTimeout(() => {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+    }, 3000);
+ 
+    const restaurants = [
+      { name: 'Spice Garden',   icon: '🌶️', tag: 'South Indian Specials' },
+      { name: 'The Tiffin Box', icon: '🥡', tag: 'Homestyle Comfort Food' },
+      { name: 'Rice Bowl',      icon: '🍚', tag: 'Rice & Biriyani Hub' },
+      { name: 'Dosa Palace',    icon: '🫓', tag: 'Crispy Dosas & More' },
+      { name: 'Chicken Hut',    icon: '🍗', tag: 'Non-Veg Favourites' },
+      { name: 'Green Bites',    icon: '🥦', tag: 'Pure Veg Delights' },
+      { name: 'Curry Corner',   icon: '🍛', tag: 'Gravies & Sides' },
+      { name: 'Egg Station',    icon: '🍳', tag: 'Egg-based Meals' },
+      { name: 'The Food Court', icon: '🏬', tag: 'All-in-One Stop' },
+      { name: 'Midnight Munch', icon: '🌙', tag: 'Late Night Snacks' },
+    ];
+ 
+    // Each restaurant has its own menu based on its theme/name
+    const restaurantMenus = [
+      // 0 - Spice Garden (South Indian Specials)
+      [
+        {name:'Idly',            price:20,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Dosa',            price:40,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png'},
+        {name:'Medu Vada',       price:25,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Sambar Rice',     price:60,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Chettinad Chicken',price:160,type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+        {name:'Pepper Chicken',  price:150, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png'},
+      ],
+      // 1 - The Tiffin Box (Homestyle Comfort Food)
+      [
+        {name:'Idly',            price:20,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Poha',            price:30,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Dal Rice',        price:70,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Rasam Rice',      price:50,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Curd Rice',       price:45,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Egg Curry Rice',  price:90,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+      ],
+      // 2 - Rice Bowl (Rice & Biriyani Hub)
+      [
+        {name:'Veg Biriyani',    price:90,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Veg Fried Rice',  price:80,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Lemon Rice',      price:55,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Chicken Biriyani',price:140, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+        {name:'Mutton Biriyani', price:170, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Egg Fried Rice',  price:100, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+      ],
+      // 3 - Dosa Palace (Crispy Dosas & More)
+      [
+        {name:'Plain Dosa',      price:40,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png'},
+        {name:'Masala Dosa',     price:55,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png'},
+        {name:'Onion Dosa',      price:50,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png'},
+        {name:'Rava Dosa',       price:60,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png'},
+        {name:'Egg Dosa',        price:70,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Chicken Dosa',    price:90,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+      ],
+      // 4 - Chicken Hut (Non-Veg Favourites)
+      [
+        {name:'Chicken Biriyani',price:140, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+        {name:'Chicken Fried Rice',price:120,type:'nonveg',img:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png'},
+        {name:'Parota + Chicken',price:110, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Chicken Soup',    price:80,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png'},
+        {name:'Grilled Chicken', price:160, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+        {name:'Chicken 65',      price:130, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+      ],
+      // 5 - Green Bites (Pure Veg Delights)
+      [
+        {name:'Veg Biriyani',    price:90,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Paneer Butter Masala',price:130,type:'veg', img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Aloo Paratha',    price:60,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png'},
+        {name:'Veg Noodles',     price:80,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Gobi Manchurian', price:90,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Mixed Veg Curry', price:75,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+      ],
+      // 6 - Curry Corner (Gravies & Sides)
+      [
+        {name:'Dal Fry',         price:60,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Palak Paneer',    price:110, type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Chapati + Dal',   price:55,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/3075/3075977.png'},
+        {name:'Chicken Curry',   price:130, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+        {name:'Mutton Curry',    price:160, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Fish Curry',      price:140, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png'},
+      ],
+      // 7 - Egg Station (Egg-based Meals)
+      [
+        {name:'Egg Fried Rice',  price:100, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Egg Dosa',        price:70,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Omelette',        price:40,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Egg Curry Rice',  price:90,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Boiled Eggs (2)', price:30,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Egg Paratha',     price:65,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+      ],
+      // 8 - The Food Court (All-in-One)
+      [
+        {name:'Idly',            price:20,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Veg Biriyani',    price:90,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+        {name:'Veg Fried Rice',  price:80,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Chicken Biriyani',price:140, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+        {name:'Egg Fried Rice',  price:100, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Parota + Chicken',price:110, type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/857/857681.png'},
+      ],
+      // 9 - Midnight Munch (Late Night Snacks)
+      [
+        {name:'Bread Omelette',  price:45,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/135/135620.png'},
+        {name:'Maggi Noodles',   price:40,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'},
+        {name:'Veg Sandwich',    price:50,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Chicken Sandwich',price:70,  type:'nonveg', img:'https://cdn-icons-png.flaticon.com/512/1046/1046769.png'},
+        {name:'Masala Tea',      price:15,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+        {name:'Cold Coffee',     price:55,  type:'veg',    img:'https://cdn-icons-png.flaticon.com/512/590/590749.png'},
+      ],
+    ];
+ 
+    // Each restaurant gets its own qty state
+    let currentRestaurantIndex = null;
+    let restaurantQtys = restaurantMenus.map(menu => menu.map(() => 0));
+ 
+    // Render restaurant cards
+    function renderRestaurants() {
+      const grid = document.getElementById('restaurantGrid');
+      grid.innerHTML = restaurants.map((r, i) => `
+        <div class="restaurant-card" onclick="openRestaurant(${i})">
+          <div class="r-icon">${r.icon}</div>
+          <h3>${r.name}</h3>
+          <p>${r.tag}</p>
+        </div>
+      `).join('');
+    }
+ 
+    function openRestaurant(i) {
+      currentRestaurantIndex = i;
+      document.getElementById('restaurantView').style.display = 'none';
+      document.getElementById('menuView').style.display = 'block';
+      document.getElementById('menuRestaurantName').innerText = restaurants[i].name;
+      document.getElementById('menuIcon').innerText = restaurants[i].icon;
+ 
+      // Reset filter
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn')[0].classList.add('active');
+ 
+      renderFoods(restaurantMenus[i]);
+    }
+ 
+    function goBack() {
+      document.getElementById('menuView').style.display = 'none';
+      document.getElementById('restaurantView').style.display = 'block';
+      currentRestaurantIndex = null;
+    }
+ 
+    function renderFoods(list) {
+      const ri = currentRestaurantIndex;
+      const menu = restaurantMenus[ri];
+      const grid = document.getElementById('foodGrid');
+      grid.innerHTML = list.map((f) => {
+        const trueIndex = menu.indexOf(f);
         return `
         <div class="food-card">
-            <img src="${f.img}">
-            <h4>${f.name}</h4>
-            <span>₹${f.price}</span>
-            <div class="qty-box">
-                <button class="qty-btn" onclick="decreaseQty(${originalIndex})">−</button>
-                <div>${f.qty}</div>
-                <button class="qty-btn" onclick="increaseQty(${originalIndex})">+</button>
-            </div>
+          <img src="${f.img}">
+          <h4>${f.name}</h4>
+          <span>₹${f.price}</span>
+          <div class="qty-box">
+            <button class="qty-btn" onclick="decreaseQty(${trueIndex})">−</button>
+            <div class="qty" id="qty${trueIndex}">${restaurantQtys[ri][trueIndex]}</div>
+            <button class="qty-btn" onclick="increaseQty(${trueIndex})">+</button>
+          </div>
         </div>`;
-    }).join('');
-}
-
-function increaseQty(i){foods[i].qty++;updateBill();refreshCurrentView();}
-function decreaseQty(i){if(foods[i].qty>0)foods[i].qty--;updateBill();refreshCurrentView();}
-
-function refreshCurrentView(){
-    const activeBtn = document.querySelector('.filter-btn.active').innerText.toLowerCase().replace('non-veg','nonveg');
-    if(activeBtn === 'all') renderFoods(foods);
-    else if(activeBtn === 'history') showHistory();
-    else renderFoods(foods.filter(f => f.type === activeBtn));
-}
-
-function updateBill(){
-    let total=0,list="";
-    foods.forEach(f=>{
-        if(f.qty>0){total+=f.qty*f.price;list+=`${f.name}x${f.qty} `; }
-    });
-    document.getElementById('total').innerText=total;
-    document.getElementById('items').innerText=list;
-}
-
-function pay(type){
-    let total=document.getElementById('total').innerText;
-    if(total==0){alert("Please select items first");return;}
-    if(type==="Cash"){
-        generateBill();
-        document.getElementById('main').style.display="none";
-        document.getElementById('billPage').style.display="flex";
+      }).join('');
     }
-    if(type==="GPay"){
-        document.getElementById('qrBox').style.display="flex";
-        document.getElementById('qrImg').src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Pay Rs "+total;
+ 
+    function increaseQty(i) {
+      restaurantQtys[currentRestaurantIndex][i]++;
+      document.getElementById('qty' + i).innerText = restaurantQtys[currentRestaurantIndex][i];
     }
-}
-
-function generateBill(){
-    let table="",subTotal=0;
-    foods.forEach(f=>{
-        if(f.qty>0){
-            let amt=f.qty*f.price;
-            subTotal+=amt;
-            table+=`<tr><td>${f.name}</td><td align="center">${f.qty}</td><td align="right">${amt}</td></tr>`;
-        }
-    });
-    document.getElementById("billTable").innerHTML=table;
-    document.getElementById("subTotal").innerText=subTotal;
-    document.getElementById("grandTotal").innerText=subTotal+30;
-}
-
-function confirmOrder(){
-    saveHistory();
-    document.getElementById('billPage').style.display="none";
-    document.getElementById('successPage').style.display="flex";
-    document.getElementById('successSound').play();
-    setTimeout(()=>location.reload(), 3000);
-}
-
-function saveHistory(){
-    let history=JSON.parse(localStorage.getItem("orders"))||[];
-    history.push({items:document.getElementById('items').innerText,total:document.getElementById('total').innerText,time:new Date().toLocaleString()});
-    localStorage.setItem("orders",JSON.stringify(history));
-}
-
-function showHistory(){
-    let history=JSON.parse(localStorage.getItem("orders"))||[];
-    let html=history.map((o,i)=>`<p><b>#${i+1}</b> ${o.items}<br>Total ₹${o.total} | ${o.time}</p><hr>`).join('');
-    document.getElementById('historyList').innerHTML=html||"No orders yet";
-    document.getElementById('historyPage').style.display="flex";
-}
-
-function closeHistory(){document.getElementById('historyPage').style.display="none";}
-function closeQR(){document.getElementById('qrBox').style.display="none";}
-
-function filterMenu(type){
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-    if(type==='all')renderFoods(foods);
-    else renderFoods(foods.filter(f=>f.type===type));
-}
-
-renderFoods(foods);
-</script>
-
+ 
+    function decreaseQty(i) {
+      if (restaurantQtys[currentRestaurantIndex][i] > 0)
+        restaurantQtys[currentRestaurantIndex][i]--;
+      document.getElementById('qty' + i).innerText = restaurantQtys[currentRestaurantIndex][i];
+    }
+ 
+    function filterMenu(type) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      const menu = restaurantMenus[currentRestaurantIndex];
+      if (type === 'all') renderFoods(menu);
+      else renderFoods(menu.filter(f => f.type === type));
+    }
+ 
+    renderRestaurants();
+  </script>
+ 
 </body>
 </html>
